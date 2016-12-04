@@ -2,6 +2,8 @@ package khoa.selenium.pages;
 
 import org.openqa.selenium.WebDriver;
 
+import java.util.concurrent.TimeUnit;
+
 /*
  * Abstract class representation of a Page in the UI. Page object pattern
  * 
@@ -9,23 +11,8 @@ import org.openqa.selenium.WebDriver;
  */
 public abstract class Page {
 
-	protected WebDriver webDriver;
-
-	/*
-	 * Constructor injecting the WebDriver interface
-	 * 
-	 * @param webDriver
-	 */
-	public Page(WebDriver webDriver) {
-		this.webDriver = webDriver;
+	WebDriver driver;
+	public Page(WebDriver driver) {
+		this.driver = driver;
 	}
-
-	public WebDriver getWebDriver() {
-		return webDriver;
-	}
-
-	public String getTitle() {
-		return webDriver.getTitle();
-	}
-
 }
