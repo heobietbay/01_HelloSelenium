@@ -7,11 +7,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.ScreenshotException;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -29,33 +29,36 @@ public class YahooLoginPageTest {
     public void setUp() throws Exception {
         // need this in order to manipulate Chrome, find the chrome driver at https://sites.google.com/a/chromium.org/chromedriver/
         System.setProperty("webdriver.chrome.driver","D:\\Workspace\\SELENIUM\\drivers\\chromedriver.exe");
+        baseUrl = YahooLoginPage.URL_LOGIN_YAHOO_COM;
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
         driver = new ChromeDriver(options);
-        baseUrl = "https://login.yahoo.com";
+        driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
     }
 
     @Test
-    public void testCwebLoginPage() throws Exception {
-        driver.get(baseUrl);
-        assertEquals(driver.getTitle(), "Yahoo - login");
-        setScreenshot("1_loginPage");
+    public void testLoginPage() throws Exception {
 
-        WebElement usernameTxt = getElement( () -> By.id("login-username") );
-        usernameTxt.sendKeys("heobietbay11");
-
-        // For yahoo page login, this button will be reloaded, so cannot hold one reference for it, have to search and fire each time
-        getElement( () -> By.id("login-signin") ).click();
-
-        WebElement passwdTxt = getElement( () -> By.id("login-passwd") );
-        passwdTxt.sendKeys("djfkldsfkljasdlfkj");
-
-        getElement( () -> By.id("login-signin") ).click();
         try {
-            WebElement errorMsgEl = getElement( () -> By.id("mbr-login-error") );
+            driver.get(baseUrl);
+
+            assertEquals(driver.getTitle(), "Yahoo - login");
+            setScreenshot("1_loginPage");
+
+            YahooLoginPage yahooLoginPage = PageFactory.initElements(driver, YahooLoginPage.class);
+
+            // Step 1: set a valid username, then click Next to proceed
+            yahooLoginPage.getLoginUsernameTxt().sendKeys("heobietbay11");
+            yahooLoginPage.getLoginSigninBtn().click();
+
+            // Step 2: put some random password, then click Sign in to proceed
+            yahooLoginPage.getLoginPasswdTxt().sendKeys("djfkldsfkljasdlfkj");
+            yahooLoginPage.getLoginSigninBtn().click();
+
+            // Check result
             setScreenshot("2_errorMessage");
-            assertEquals(errorMsgEl.getText(), "Invalid password. Please try again.");
+            assertEquals(yahooLoginPage.getLoginErrMsg().getText(), "Invalid password. Please try again.");
         }
         catch (Error e) {
             verificationErrors.append(e.toString());
