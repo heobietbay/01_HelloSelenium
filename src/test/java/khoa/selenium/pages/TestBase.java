@@ -1,9 +1,7 @@
 package khoa.selenium.pages;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
+import khoa.selenium.util.Browser;
+import khoa.selenium.util.PropertyLoader;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -16,21 +14,16 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 
-import khoa.selenium.util.PropertyLoader;
-import khoa.selenium.util.Browser;
-import khoa.selenium.webdriver.WebDriverFactory;
-
-/*
- * Base class for all the test classes
- * 
- * @author Sebastiano Armeli-Battana
- */
+import java.io.File;
+import java.io.IOException;
 
 public class TestBase {
 
     @BeforeClass
     public void init() {
-        System.setProperty("webdriver.chrome.driver","D:\\Workspace\\SELENIUM\\drivers\\chromedriver.exe");
+        // please configure webdriver.chrome.driver in application.properties, find the chrome driver at https://sites.google.com/a/chromium.org/chromedriver/
+        System.setProperty("webdriver.chrome.driver", PropertyLoader.loadProperty("webdriver.chrome.driver"));
+
         websiteUrl = PropertyLoader.loadProperty("site.url");
         webDriver = new ChromeDriver();
     }

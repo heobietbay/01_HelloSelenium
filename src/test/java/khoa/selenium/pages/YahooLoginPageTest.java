@@ -1,14 +1,14 @@
 package khoa.selenium.pages;
 
 
+import khoa.selenium.factory.AjaxPageFactory;
+import khoa.selenium.util.PropertyLoader;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.ScreenshotException;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
@@ -27,9 +27,10 @@ public class YahooLoginPageTest {
 
     @BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
-        // need this in order to manipulate Chrome, find the chrome driver at https://sites.google.com/a/chromium.org/chromedriver/
-        System.setProperty("webdriver.chrome.driver","D:\\Workspace\\SELENIUM\\drivers\\chromedriver.exe");
-        baseUrl = YahooLoginPage.URL_LOGIN_YAHOO_COM;
+        // please configure webdriver.chrome.driver in application.properties, find the chrome driver at https://sites.google.com/a/chromium.org/chromedriver/
+        System.setProperty("webdriver.chrome.driver", PropertyLoader.loadProperty("webdriver.chrome.driver"));
+
+        baseUrl = YahooLoginPageV2.URL_LOGIN_YAHOO_COM;
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
@@ -46,7 +47,7 @@ public class YahooLoginPageTest {
             assertEquals(driver.getTitle(), "Yahoo - login");
             setScreenshot("1_loginPage");
 
-            YahooLoginPage yahooLoginPage = PageFactory.initElements(driver, YahooLoginPage.class);
+            YahooLoginPageV2 yahooLoginPage = AjaxPageFactory.initElements(driver, YahooLoginPageV2.class);
 
             // Step 1: set a valid username, then click Next to proceed
             yahooLoginPage.getLoginUsernameTxt().sendKeys("heobietbay11");
