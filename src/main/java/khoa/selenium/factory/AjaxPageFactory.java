@@ -1,5 +1,6 @@
 package khoa.selenium.factory;
 
+import khoa.selenium.util.PropertyLoader;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -53,5 +54,5 @@ public class AjaxPageFactory extends PageFactory {
             throw new RuntimeException(e);
         }
     }
-    public static final int TIME_OUT_IN_SECONDS = 5;
+    public static final int TIME_OUT_IN_SECONDS = Integer.valueOf( PropertyLoader.loadProperty("timeout.element"));
 }
