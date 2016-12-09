@@ -1,24 +1,18 @@
 package khoa.selenium.pages;
 
 
+import khoa.selenium.Configuration;
 import khoa.selenium.factory.AjaxPageFactory;
+import khoa.selenium.util.DriverUtil;
 import khoa.selenium.util.PropertyLoader;
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.Augmenter;
-import org.openqa.selenium.remote.ScreenshotException;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
@@ -28,7 +22,7 @@ public class YahooLoginPageTest {
     @BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
         // please configure webdriver.chrome.driver in application.properties, find the chrome driver at https://sites.google.com/a/chromium.org/chromedriver/
-        System.setProperty("webdriver.chrome.driver", PropertyLoader.loadProperty("webdriver.chrome.driver"));
+        System.setProperty("webdriver.chrome.driver", Configuration.INSTANCE.chromeDriverLocation());
 
         baseUrl = YahooLoginPageV2.URL_LOGIN_YAHOO_COM;
 
@@ -66,16 +60,6 @@ public class YahooLoginPageTest {
         }
     }
 
-    /**
-     * Get an element, with a time out of 10 seconds. This is using explicit wait.
-     * Only return an element if its present in the page, and its width, height greater than 0.
-     * @param by a predicate, cound be find by id, or find by class name,....
-     * @return the element, or an exception.
-     */
-    private WebElement getElement(Supplier<By> by) {
-        return (new WebDriverWait(driver, 10)).until(ExpectedConditions.visibilityOfElementLocated(by.get()));
-    }
-
     @AfterClass(alwaysRun = true)
     public void tearDown() throws Exception {
         assert driver != null;
@@ -88,22 +72,7 @@ public class YahooLoginPageTest {
 
 
     private void setScreenshot(String name) {
-        try {
-            WebDriver returned = new Augmenter().augment(driver);
-            if (returned != null) {
-                File f = ((TakesScreenshot) returned).getScreenshotAs(OutputType.FILE);
-                try {
-                    FileUtils.copyFile(f,
-                            new File(SCREENSHOT_FOLDER + name + "_" + System.currentTimeMillis() + SCREENSHOT_FORMAT));
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        catch (ScreenshotException se) {
-            se.printStackTrace();
-        }
+        DriverUtil.takeScreenshot(driver,SCREENSHOT_FOLDER + name + "_" + System.currentTimeMillis() ,SCREENSHOT_FORMAT);
     }
 
     private boolean isElementPresent(By by) {

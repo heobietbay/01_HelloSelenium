@@ -1,7 +1,7 @@
 package khoa.selenium.pages;
 
+import khoa.selenium.Configuration;
 import khoa.selenium.util.Browser;
-import khoa.selenium.util.PropertyLoader;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -22,9 +22,9 @@ public class TestBase {
     @BeforeClass
     public void init() {
         // please configure webdriver.chrome.driver in application.properties, find the chrome driver at https://sites.google.com/a/chromium.org/chromedriver/
-        System.setProperty("webdriver.chrome.driver", PropertyLoader.loadProperty("webdriver.chrome.driver"));
+        System.setProperty("webdriver.chrome.driver", Configuration.INSTANCE.chromeDriverLocation());
 
-        websiteUrl = PropertyLoader.loadProperty("site.url");
+        websiteUrl = Configuration.INSTANCE.getSiteUrl();
         webDriver = new ChromeDriver();
     }
 

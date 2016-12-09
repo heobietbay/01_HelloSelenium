@@ -1,6 +1,6 @@
 package khoa.selenium.factory;
 
-import khoa.selenium.util.PropertyLoader;
+import khoa.selenium.Configuration;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -14,7 +14,6 @@ import java.lang.reflect.InvocationTargetException;
  * {@link khoa.selenium.locator.CustomAjaxElementLocator#isElementUsable(WebElement)}
  */
 public class AjaxPageFactory extends PageFactory {
-
     public static <T> T initElements(WebDriver driver, Class<T> pageClassToProxy) {
         T page = instantiatePage(driver, pageClassToProxy);
         initElements(driver, page);
@@ -28,7 +27,7 @@ public class AjaxPageFactory extends PageFactory {
      */
     public static void initElements(WebDriver driver, Object page) {
         final WebDriver driverRef = driver;
-        initElements(new CustomAjaxElementLocatorFactory(driverRef, TIME_OUT_IN_SECONDS), page);
+        initElements(new CustomAjaxElementLocatorFactory(driverRef, Configuration.INSTANCE.getTimeOutForElement()), page);
     }
 
     /**
@@ -54,5 +53,4 @@ public class AjaxPageFactory extends PageFactory {
             throw new RuntimeException(e);
         }
     }
-    public static final int TIME_OUT_IN_SECONDS = Integer.valueOf( PropertyLoader.loadProperty("timeout.element"));
 }

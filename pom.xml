@@ -104,6 +104,21 @@
 	<!-- profiles -->
 	<profiles>
 		<profile>
+			<id>test</id>
+			<properties>
+				<env>test</env>
+				<user.username></user.username>
+				<user.password></user.password>
+				<grid2.hub></grid2.hub>
+				<browser.name></browser.name>
+				<browser.version></browser.version>
+				<browser.platform></browser.platform>
+				<site.url>http://www.google.com</site.url>
+				<webdriver.chrome.driver>src/main/resources/drivers/chrome/chromedriver.exe</webdriver.chrome.driver>
+				<timeout.element>10</timeout.element>
+			</properties>
+		</profile>
+		<profile>
 			<id>local</id>
 			<properties>
 				<env>local</env>
@@ -125,21 +140,6 @@
 			<id>dev</id>
 			<properties>
 				<env>dev</env>
-				<user.username></user.username>
-				<user.password></user.password>
-				<grid2.hub></grid2.hub>
-				<browser.name></browser.name>
-				<browser.version></browser.version>
-				<browser.platform></browser.platform>
-				<site.url>http://www.google.com</site.url>
-				<webdriver.chrome.driver>src/main/resources/drivers/chrome/chromedriver.exe</webdriver.chrome.driver>
-				<timeout.element>10</timeout.element>
-			</properties>
-		</profile>
-		<profile>
-			<id>test</id>
-			<properties>
-				<env>test</env>
 				<user.username></user.username>
 				<user.password></user.password>
 				<grid2.hub></grid2.hub>
