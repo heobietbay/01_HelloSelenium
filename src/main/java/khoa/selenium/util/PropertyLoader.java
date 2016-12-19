@@ -10,7 +10,7 @@ import java.util.Properties;
 public enum PropertyLoader {
 	INSTANCE;
 
-	public static String loadProperty(String name) {
+	public String loadProperty(String name) {
 		String value = "";
 		if (name != null) {
 			value = INSTANCE.applicationProperties.getProperty(name);

@@ -10,16 +10,16 @@ public enum Configuration {
 
     public int getTimeOutForElement()
     {
-        return Integer.valueOf(PropertyLoader.loadProperty("timeout.element")) ;
+        return Integer.valueOf(PropertyLoader.INSTANCE.loadProperty("timeout.element")) ;
     }
 
     public String chromeDriverLocation()
     {
-        return PropertyLoader.loadProperty("webdriver.chrome.driver");
+        return PropertyLoader.INSTANCE.loadProperty("webdriver.chrome.driver");
     }
 
     public String getSiteUrl()
     {
-        return PropertyLoader.loadProperty("site.url");
+        return PropertyLoader.INSTANCE.loadProperty("site.url");
     }
 }
