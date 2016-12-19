@@ -2,7 +2,6 @@ package khoa.selenium.locator;
 
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.pagefactory.AbstractAnnotations;
 
 import java.lang.reflect.Field;
 
@@ -13,7 +12,7 @@ public class CustomAjaxElementLocator extends org.openqa.selenium.support.pagefa
 
     @Override
     protected boolean isElementUsable(WebElement element) {
-        return element.isDisplayed();
+        return element != null && element.isDisplayed();
     }
 
     public CustomAjaxElementLocator(SearchContext searchContext, Field field, int timeOutInSeconds) {

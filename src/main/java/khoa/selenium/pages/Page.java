@@ -2,8 +2,6 @@ package khoa.selenium.pages;
 
 import org.openqa.selenium.WebDriver;
 
-import java.util.concurrent.TimeUnit;
-
 /*
  * Abstract class representation of a Page in the UI. Page object pattern
  * 
